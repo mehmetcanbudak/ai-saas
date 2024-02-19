@@ -23,3 +23,6 @@ go.work
 bin
 *_templ.go*
 node_modules
+
+package.json
+package-lock.json

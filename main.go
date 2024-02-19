@@ -2,7 +2,7 @@ package main
 
 import (
 	"ai-saas/handler"
-	"ai-saas/pkg/supabase"
+	"ai-saas/pkg/sb"
 	"embed"
 	"log"
 	"log/slog"
@@ -38,5 +38,5 @@ func initEverything() error {
 	if err := godotenv.Load(); err != nil {
 		return err
 	}
-	return supabase.Init()
+	return sb.Init()
 }
