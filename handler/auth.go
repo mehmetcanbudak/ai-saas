@@ -1,9 +1,10 @@
 package handler
 
 import (
+	"ai-saas/pkg/sb"
 	"ai-saas/pkg/util"
 	"ai-saas/view/auth"
-	"fmt"
+	"log/slog"
 	"net/http"
 
 	"github.com/nedpals/supabase-go"
@@ -31,14 +32,24 @@ func HandleLoginCreate(w http.ResponseWriter, r *http.Request) error {
 		}))
 	}
 
-	// resp, err := sb.Client.Auth.SignIn(r.Context(), credentials)
-	// if err != nil {
-	// 	//slog.Error("Error signing in", "err", err)
-	// 	return render(r, w, auth.LoginForm(credentials, auth.LoginErrors{
-	// 		InvalidCredentials: "The credentials you have entered are invalid",
-	// 	}))
-	// }
+	resp, err := sb.Client.Auth.SignIn(r.Context(), credentials)
+	if err != nil {
+		slog.Error("Error signing in", "err", err)
+		return render(r, w, auth.LoginForm(credentials, auth.LoginErrors{
+			InvalidCredentials: "The credentials you have entered are invalid",
+		}))
+	}
 
-	fmt.Println(credentials)
+	cookie := &http.Cookie{
+		Value:    resp.AccessToken,
+		Name:     "at",
+		Path:     "/",
+		HttpOnly: true,
+		Secure:   true,
+	}
+
+	http.SetCookie(w, cookie)
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 	return nil
 }
