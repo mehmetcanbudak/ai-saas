@@ -6,7 +6,7 @@ A brief description of what this project does and who it's for
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](/Users/mehmetcanbudak/Projects/Mehmetcan/goProjects/ai-saas/SS.png)
 
 
 ## Deployment
