@@ -18,6 +18,20 @@ func HandleSignupIndex(w http.ResponseWriter, r *http.Request) error {
 	return render(r, w, auth.Signup())
 }
 
+func HandleLogoutCreate(w http.ResponseWriter, r *http.Request) error {
+	cookie := http.Cookie{
+		Value:    "",
+		Name:     "at",
+		MaxAge:   -1,
+		HttpOnly: true,
+		Path:     "/",
+		Secure:   true,
+	}
+	http.SetCookie(w, &cookie)
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
+	return nil
+}
+
 func HandleSignupCreate(w http.ResponseWriter, r *http.Request) error {
 	params := auth.SignupParams{
 		Email:           r.FormValue("email"),
@@ -71,4 +85,24 @@ func HandleLoginCreate(w http.ResponseWriter, r *http.Request) error {
 
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 	return nil
+}
+
+func HandleAuthCallback(w http.ResponseWriter, r *http.Request) error {
+	accessToken := r.URL.Query().Get("access_token")
+	if len(accessToken) == 0 {
+		return render(r, w, auth.CallbackScript())
+	}
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+	return nil
+}
+
+func setAuthCookie(w http.ResponseWriter, accessToken string) {
+	cookie := &http.Cookie{
+		Value:    accessToken,
+		Name:     "at",
+		Path:     "/",
+		HttpOnly: true,
+		Secure:   true,
+	}
+	http.SetCookie(w, cookie)
 }
