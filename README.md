@@ -3,11 +3,9 @@
 
 A brief description of what this project does and who it's for
 
+## Documentation
 
-## Screenshots
-
-![App Screenshot](/Users/mehmetcanbudak/Projects/Mehmetcan/goProjects/ai-saas/SS.png)
-
+[Documentation](https://github.com/mehmetcanbudak/ai-saas)
 
 ## Deployment
 
@@ -17,27 +15,26 @@ To deploy this project run
   go mod init ai-saas
 ```
 
-
-## Documentation
-
-[Documentation](https://linktodocumentation)
-
-
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
 
-`API_KEY`
+`HTTP_LISTEN_ADDR`
 
-`ANOTHER_API_KEY`
+`DB_HOST`
+`DB_USER`
+`DB_PASSWORD`
+`DB_NAME`
 
+`SUPABASE_SECRET`
+`SUPABASE_URL`
 
 ## Features
 
-- Light/dark mode toggle
-- Live previews
-- Fullscreen mode
-- Cross platform
+- GO
+- HTMX
+- TEMPL
+- SUPABASE
 
 
 ## Installation
@@ -46,8 +43,6 @@ Install my-project with npm
 
 ```bash
   go mod init ai-saas
-  npm install my-project
-  cd my-project
 ```
     
 ## License
