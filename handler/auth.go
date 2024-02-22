@@ -28,7 +28,7 @@ func HandleLogoutCreate(w http.ResponseWriter, r *http.Request) error {
 		Secure:   true,
 	}
 	http.SetCookie(w, &cookie)
-	http.Redirect(w, r, "/login", http.StatusSeeOther)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 	return nil
 }
 
@@ -72,19 +72,8 @@ func HandleLoginCreate(w http.ResponseWriter, r *http.Request) error {
 			InvalidCredentials: "The credentials you have entered are invalid",
 		}))
 	}
-
-	cookie := &http.Cookie{
-		Value:    resp.AccessToken,
-		Name:     "at",
-		Path:     "/",
-		HttpOnly: true,
-		Secure:   true,
-	}
-
-	http.SetCookie(w, cookie)
-
-	http.Redirect(w, r, "/", http.StatusSeeOther)
-	return nil
+	setAuthCookie(w, resp.AccessToken)
+	return hxRedirect(w, r, "/")
 }
 
 func HandleAuthCallback(w http.ResponseWriter, r *http.Request) error {
@@ -92,6 +81,7 @@ func HandleAuthCallback(w http.ResponseWriter, r *http.Request) error {
 	if len(accessToken) == 0 {
 		return render(r, w, auth.CallbackScript())
 	}
+	setAuthCookie(w, accessToken)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 	return nil
 }
